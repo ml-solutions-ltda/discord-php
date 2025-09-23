@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is a part of the DiscordPHP project.
+ *
+ * Copyright (c) 2015-present David Cole <david.cole1340@gmail.com>
+ *
+ * This file is subject to the MIT license that is bundled
+ * with this source code in the LICENSE.md file.
+ */
+
+namespace MlSolutions\Discord\Repository\Channel;
+
+use MlSolutions\Discord\Http\Endpoint;
+use MlSolutions\Discord\Parts\Channel\Invite;
+use MlSolutions\Discord\Repository\AbstractRepository;
+
+/**
+ * Contains invites of a channel.
+ *
+ * @see Invite
+ * @see \Discord\Parts\Channel\Channel
+ *
+ * @since 4.0.0
+ *
+ * @method Invite|null get(string $discrim, $key)
+ * @method Invite|null pull(string|int $key, $default = null)
+ * @method Invite|null first()
+ * @method Invite|null last()
+ * @method Invite|null find(callable $callback)
+ *
+ * @method Invite|null freshen(array $queryparams = [])
+ *                                                      Optional Query Parameters:
+ *                                                      - with_counts? (boolean): Whether the invite should contain approximate member counts.
+ *                                                      - with_expiration? (boolean): Whether the invite should contain the expiration date.
+ *                                                      - guild_scheduled_event_id? (snowflake): The guild scheduled event to include with the invite.
+ */
+class InviteRepository extends AbstractRepository
+{
+    /**
+     * @inheritDoc
+     */
+    protected $endpoints = [
+        'all' => Endpoint::CHANNEL_INVITES,
+        'get' => Endpoint::INVITE,
+        'create' => Endpoint::CHANNEL_INVITES,
+        'delete' => Endpoint::INVITE,
+    ];
+
+    /**
+     * @inheritDoc
+     */
+    protected $class = Invite::class;
+}

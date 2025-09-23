@@ -1,0 +1,62 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is a part of the DiscordPHP project.
+ *
+ * Copyright (c) 2015-present David Cole <david.cole1340@gmail.com>
+ *
+ * This file is subject to the MIT license that is bundled
+ * with this source code in the LICENSE.md file.
+ */
+
+namespace MlSolutions\Discord\Repository\Guild;
+
+use MlSolutions\Discord\Http\Endpoint;
+use MlSolutions\Discord\Parts\Guild\CommandPermissions;
+use MlSolutions\Discord\Repository\AbstractRepository;
+
+/**
+ * Contains permission overwrites for application guild commands.
+ *
+ * @see CommandPermissions
+ * @see \Discord\Parts\Interactions\Command\Command
+ * @see \Discord\Parts\Interactions\Command\Permission
+ *
+ * @since 10.0.0 Refactored from OverwriteRepository to CommandPermissionsRepository
+ * @since 7.0.0
+ *
+ * @method CommandPermissions|null get(string $discrim, $key)
+ * @method CommandPermissions|null pull(string|int $key, $default = null)
+ * @method CommandPermissions|null first()
+ * @method CommandPermissions|null last()
+ * @method CommandPermissions|null find(callable $callback)
+ */
+class CommandPermissionsRepository extends AbstractRepository
+{
+    /**
+     * @inheritDoc
+     */
+    protected $endpoints = [
+        'all' => Endpoint::GUILD_APPLICATION_COMMANDS_PERMISSIONS,
+        'get' => Endpoint::GUILD_APPLICATION_COMMAND_PERMISSIONS,
+    ];
+
+    /**
+     * @inheritDoc
+     */
+    protected $class = CommandPermissions::class;
+
+    /**
+     * @inheritDoc
+     *
+     * @param Discord $discord
+     */
+    public function __construct($discord, array $vars = [])
+    {
+        $vars['application_id'] = $discord->application->id; // For the bot's Application Guild Commands
+
+        parent::__construct($discord, $vars);
+    }
+}
